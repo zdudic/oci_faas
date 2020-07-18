@@ -1,0 +1,43 @@
+This is example of function that configure LDAP client on an OCI compute. 
+It's using HotWrap tool, that creates function based on some legacy shell script for ldap configuration.
+
+Prep-work
+----------
+
+- Yopu need to have access to OCIR 
+- Create application (collection of functions), name it like ldap-app
+- In OCI console shell, create working location, like /home/zd/fn/ldap-fn
+- Copy to this directory your code, the shell scripts (ex. ldap_config.sh) 
+- Copy to this directory public key for opc user (id_rsa-opc), this is user that exist in OCI compute, so when creating compute, make sure to provide opc public key.
+- Create metadata definition file func.yaml (present in this repo)
+- Create Dockerfile (present in this repo)
+
+Build function
+----------------
+
+Run: fn -v build
+
+Note, since OCI compute name is hard-coded in Docker, we'll need to build function for each compute, so function is one time use only. 
+
+Deploy function 
+---------------
+(this basically creates function and push docker image into OCIR)
+
+Syntax: fn -v deploy -app <app-name>
+Ex: fn -v deploy -app ldap-app
+
+Invoke function
+---------------
+
+1. invoke using oci command:
+
+Syntax:
+oci fn function invoke --function-id <fn-oci-id> --file "-" --body ""
+
+2. invoke from some host with 'fn' installed (it can be installed with: curl -LSs https://raw.githubusercontent.com/fnproject/cli/master/install | sh)
+
+Syntax: fn -v invoke <app-name> <fn-name> 
+
+This will configure LDAP client on OCI compute. 
+
+
