@@ -1,0 +1,7 @@
+schema_version: 20180708
+name: dsee-fn-py-os-system
+version: 0.0.1
+runtime: python
+entrypoint: /usr/local/bin/fdk /function/func.py handler
+memory: 256
+timeout: 120
